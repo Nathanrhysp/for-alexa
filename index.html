@@ -101,7 +101,7 @@
             <div class="buttons">
                 <button id="yesBtn" onclick="sayYes()">Yes</button>
                 
-                <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No</button>
+                <button id="noBtn">No</button>
             </div>
         </div>
 
@@ -112,31 +112,47 @@
     </div>
 
     <script>
-        // FUNCTION 1: The "Runaway" Logic
-        function moveButton() {
-            var noBtn = document.getElementById('noBtn');
-            
-            // 1. Get the width and height of the browser window
-            // 2. Subtract padding (100px/50px) so the button doesn't go off the edge of the screen
-            var x = Math.random() * (window.innerWidth - 100);
-            var y = Math.random() * (window.innerHeight - 50);
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
 
-            // 3. Change position to 'fixed' so coordinates are relative to the whole screen, not the card
-            noBtn.style.position = 'fixed'; 
+        // This listener runs every time the mouse moves on the screen
+        document.addEventListener('mousemove', function(e) {
+            // Get the current position of the No button
+            const rect = noBtn.getBoundingClientRect();
             
-            // 4. Assign the new random coordinates
+            // Calculate the center of the button (X and Y coordinates)
+            const btnX = rect.left + rect.width / 2;
+            const btnY = rect.top + rect.height / 2;
+
+            // Calculate distance between mouse (e.clientX) and button center
+            // Pythagorean theorem: a^2 + b^2 = c^2
+            const distance = Math.sqrt(
+                Math.pow(e.clientX - btnX, 2) + 
+                Math.pow(e.clientY - btnY, 2)
+            );
+
+            // If mouse is within 150 pixels of the button center, MOVE IT!
+            if (distance < 150) {
+                moveButton();
+            }
+        });
+
+        function moveButton() {
+            // Get viewport dimensions to ensure it stays on screen
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+
+            noBtn.style.position = 'fixed'; // Switch to absolute positioning
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
         }
 
-        // FUNCTION 2: The "Success" Logic
         function sayYes() {
-            // Hide the question box
             document.getElementById('questionSection').style.display = 'none';
-            // Show the success box (change display from 'none' to 'flex')
             document.getElementById('successMessage').style.display = 'flex';
         }
     </script>
 
 </body>
+
 </html>
