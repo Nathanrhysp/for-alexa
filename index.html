@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Alexa ❤️</title>
+    
+    <style>
+        /* 'body' is the entire screen background */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ef709a; /* Light pink background */
+            
+            /* These 4 lines center the card perfectly in the middle of the screen */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* 100% of the Viewport Height */
+            
+            margin: 0;
+            overflow: hidden; /* IMPORTANT: This stops scrollbars from appearing when the button moves to the edge */
+        }
+
+        /* The white card that holds the text and buttons */
+        .container {
+            text-align: center;
+            background: #fee3e7;
+            padding: 40px;
+            border-radius: 20px; /* Rounded corners */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* Adds a subtle 3D drop shadow */
+            max-width: 90%;
+            width: 400px;
+        }
+
+        h1 {
+            color: #d81b60; /* Dark pink text */
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        /* Container for the Yes/No buttons so they sit side-by-side */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Space between the buttons */
+            position: relative; 
+        }
+
+        /* General styling for BOTH buttons */
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px; /* Makes buttons pill-shaped */
+            cursor: pointer;
+            transition: transform 0.2s; /* Smooth animation when you click/hover */
+        }
+
+        /* Specific styling for the YES button */
+        #yesBtn {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Grow slightly when hovering over Yes */
+        #yesBtn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Specific styling for the NO button */
+        #noBtn {
+            background-color: #f44336; /* Red */
+            color: white;
+            font-weight: bold;
+            
+            /* 'position: absolute' allows us to move this button anywhere on the screen later using JS */
+            /* We start it as relative (default in CSS) so it sits next to Yes, but JS changes this */
+        }
+
+        /* This hides the "YAY" message initially */
+        #successMessage {
+            display: none; 
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #successMessage img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="questionSection">
+            <h1>Alexa, will you be my Valentine?</h1>
+            <div class="buttons">
+                <button id="yesBtn" onclick="sayYes()">Yes</button>
+                
+                <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No</button>
+            </div>
+        </div>
+
+        <div id="successMessage">
+            <h1>hihihi I love you Sayang! 💖</h1>
+            <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGM2bjBwNjFpYzRxYmxoa2M1bHczOWpsaDFnNWx0Mjh2aGkzZGE4dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7jUI07vF3qmB1frIpS/giphy.gif" alt="Celebration GIF">
+        </div>
+    </div>
+
+    <script>
+        // FUNCTION 1: The "Runaway" Logic
+        function moveButton() {
+            var noBtn = document.getElementById('noBtn');
+            
+            // 1. Get the width and height of the browser window
+            // 2. Subtract padding (100px/50px) so the button doesn't go off the edge of the screen
+            var x = Math.random() * (window.innerWidth - 100);
+            var y = Math.random() * (window.innerHeight - 50);
+
+            // 3. Change position to 'fixed' so coordinates are relative to the whole screen, not the card
+            noBtn.style.position = 'fixed'; 
+            
+            // 4. Assign the new random coordinates
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        // FUNCTION 2: The "Success" Logic
+        function sayYes() {
+            // Hide the question box
+            document.getElementById('questionSection').style.display = 'none';
+            // Show the success box (change display from 'none' to 'flex')
+            document.getElementById('successMessage').style.display = 'flex';
+        }
+    </script>
+
+</body>
+</html>
